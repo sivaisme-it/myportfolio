@@ -38,9 +38,11 @@ src/
   Body.jsx         # all static section markup
   index.css        # the full site stylesheet
   components/
-    Cursor.jsx       # gooey cursor (from cursor.md)
+    Cursor.jsx       # gooey cursor (from cursor.md) — currently unwired, see note
     BotanicalText.jsx# blossom-and-leaf name art (from Botanical Text.md)
     LetterDrop.jsx   # dropping name animation (from fluid.md)
+    Loader.jsx       # fullscreen loading overlay, fades on ready
+    OrbConverge.jsx  # converging particle orb inside the loader (from lod.md)
   lib/
     backgrounds.js   # cloud sky + ink cyclone + nav/parallax/reveal boot
     motes.js         # ambient pollen particles
