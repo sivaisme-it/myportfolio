@@ -13,37 +13,37 @@ export default function Body() {
 {/*============ NAVBAR ============*/}
 <div className="nav-wrap" id="nav-wrap">
   <nav className="navbar" id="navbar" aria-label="Primary">
-    <a className="nav-link nav-logo" data-nav href="#hero" style="--d:120ms" aria-label="Home">
+    <a className="nav-link nav-logo" data-nav href="#hero" style={{ '--d': '120ms' }} aria-label="Home">
       <svg viewBox="0 0 22 24" aria-hidden="true">
         <path d="M11 1.3c-2.1 0-3.95 1.2-4.75 2.95C3.95 4.55 2.3 6.25 2.3 8.35c0 2.3 1.9 4.2 4.3 4.2h8.8c2.4 0 4.3-1.9 4.3-4.2 0-2.1-1.65-3.8-4-4.1C14.95 2.5 13.1 1.3 11 1.3Z"/>
         <path d="M9.6 12.55h2.8v4.2c1.35.3 2.45 1.15 3.15 2.4-1.35.4-2.4.15-3.15-.4v4.15H9.6v-4.15c-.75.55-1.8.8-3.15.4.7-1.25 1.8-2.1 3.15-2.4v-4.2Z"/>
       </svg>
     </a>
-    <a className="nav-link is-active" data-nav href="#about" style="--d:180ms">
+    <a className="nav-link is-active" data-nav href="#about" style={{ '--d': '180ms' }}>
       <span className="icon" aria-hidden="true">
         <svg viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="3"/><path d="M2.5 14.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5"/></svg>
       </span>
       <span className="label">About</span>
     </a>
-    <a className="nav-link" data-nav href="#skills" style="--d:230ms">
+    <a className="nav-link" data-nav href="#skills" style={{ '--d': '230ms' }}>
       <span className="icon" aria-hidden="true">
         <svg viewBox="0 0 16 16"><path d="M2 12l3-8 3 4 2-2 4 6"/><path d="M11 4l3 2"/></svg>
       </span>
       <span className="label">Skills</span>
     </a>
-    <a className="nav-link" data-nav href="#hobbies" style="--d:280ms">
+    <a className="nav-link" data-nav href="#hobbies" style={{ '--d': '280ms' }}>
       <span className="icon" aria-hidden="true">
         <svg viewBox="0 0 16 16"><path d="M3 3h10v10H3z"/><path d="M7 3v10M3 7h10"/></svg>
       </span>
       <span className="label">Hobbies</span>
     </a>
-    <a className="nav-link" data-nav href="#projects" style="--d:330ms">
+    <a className="nav-link" data-nav href="#projects" style={{ '--d': '330ms' }}>
       <span className="icon" aria-hidden="true">
         <svg viewBox="0 0 16 16"><path d="M2 4h12M2 4v8h12V4M6 4V2h4v2"/></svg>
       </span>
       <span className="label">Projects</span>
     </a>
-    <a className="nav-link" data-nav href="#contact" style="--d:380ms">
+    <a className="nav-link" data-nav href="#contact" style={{ '--d': '380ms' }}>
       <span className="icon" aria-hidden="true">
         <svg viewBox="0 0 16 16"><path d="M2 4l6 4 6-4"/><rect x="2" y="4" width="12" height="8" rx="1"/></svg>
       </span>
@@ -59,14 +59,14 @@ export default function Body() {
 
   <div id="drift-root" aria-hidden="true"></div>
 
-  <div className="scroll-cue par fade" style="--d:900ms;--pd:8"><span>scroll</span><span className="line"></span></div>
+  <div className="scroll-cue par fade" style={{ '--d': '900ms', '--pd': '8' }}><span>scroll</span><span className="line"></span></div>
 </header>
 
 {/*============ INTRO (name & tagline) ============*/}
 <section className="section-pad" id="intro">
   <div className="wrap">
     <LetterDrop />
-    <p className="hero-tagline par mask" style="--d:400ms;--pd:10;--pr:0.6">
+    <p className="hero-tagline par mask" style={{ '--d': '400ms', '--pd': '10', '--pr': '0.6' }}>
       Also known as <b>Dummy</b> — writer, poet, digital artist, and a full-time
       vibe coder whose head lives somewhere above these clouds. Easily distracted,
       rarely bored, and always one new obsession away from forgetting dinner.
@@ -135,7 +135,7 @@ export default function Body() {
       </div>
     </div>
 
-    <p className="adhd-note" style="margin-top:34px;">
+    <p className="adhd-note" style={{ marginTop: '34px' }}>
       <b>Honestly?</b> most of what I know, I learned by breaking something at
       2am and figuring out why. Everything above earned its place by surviving
       one of my projects.
