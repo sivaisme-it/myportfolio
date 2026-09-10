@@ -407,7 +407,7 @@ class FlowerTypeScene {
       mesh.instanceMatrix.needsUpdate = true;
       mesh.frustumCulled = false;
       mesh.position.x = -0.5 * this.stringBox.wScene;
-      mesh.position.y = -0.6 * this.stringBox.hScene;
+      mesh.position.y = -0.48 * this.stringBox.hScene;
       this.meshes.push(mesh);
       this.group.add(mesh);
     });
@@ -441,7 +441,7 @@ class FlowerTypeScene {
     var S = settingsFor(this.cfg);
     var hoverOn = this.cfg.hoverOn !== false;
     var localX = this.pointer.x + 0.5 * this.stringBox.wScene;
-    var localY = this.pointer.y + 0.6 * this.stringBox.hScene;
+    var localY = this.pointer.y + 0.48 * this.stringBox.hScene;
     var radius = Math.max(0.001, S.hoverRadius);
     var idx = [0, 0];
     this.particles.forEach((p) => {
@@ -627,9 +627,24 @@ function FlowerType(props) {
 }
 
 export default function BotanicalText() {
+  const [fontSize, setFontSize] = React.useState(140);
+
+  React.useEffect(() => {
+    const updateSize = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      // Scale font based on screen width and height so it never overflows
+      const size = Math.min(150, Math.max(72, Math.round(Math.min(w * 0.11, h * 0.18))));
+      setFontSize(size);
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
   return React.createElement(FlowerType, {
     text: "Dummy",
-    font: { fontFamily: "Fraunces, Georgia, serif", fontSize: 160, fontWeight: 300, lineHeight: 0.9 },
+    font: { fontFamily: "Fraunces, Georgia, serif", fontSize: fontSize, fontWeight: 300, lineHeight: 0.9 },
     bloom: "#FF4D0F",
     leaf: "#1F8A3B",
     hueSpread: 20,
@@ -639,5 +654,14 @@ export default function BotanicalText() {
     leafMix: 4,
     spread: 4,
     hoverOn: true,
-  })
+    style: {
+      width: "100%",
+      height: "100%",
+      minHeight: "100svh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }
+  });
 }
+
