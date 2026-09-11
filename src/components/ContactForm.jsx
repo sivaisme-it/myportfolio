@@ -1,13 +1,7 @@
 import { useState } from 'react';
-import emailjs from '@emailjs/browser';
 
-const SERVICE_ID = 'service_wtfrq2j';
-// TODO: fill these two from your EmailJS dashboard (https://dashboard.emailjs.com):
-// - Email Templates -> your template -> Template ID
-// - Account -> General -> Public Key
-// The template must contain the variables {{from_name}}, {{from_email}} and {{message}}.
-const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+const WEBHOOK_URL = 'https://hook.us2.make.com/ujpjvbgwfeliqp5w7sr61l89hhu110fb';
+const SECRET = 'i love youdummy';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
@@ -25,19 +19,24 @@ export default function ContactForm() {
     }
     setStatus('sending');
     try {
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        { from_name: name.trim(), from_email: email.trim(), message: message.trim() },
-        { publicKey: PUBLIC_KEY }
-      );
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from_name: name.trim(),
+          from_email: email.trim(),
+          message: message.trim(),
+          secret: SECRET,
+        }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       setStatus('sent');
       setName('');
       setEmail('');
       setMessage('');
     } catch (err) {
-      console.error('[contact form] EmailJS failed:', err);
-      setErrorDetail(err && err.text ? String(err.text) : 'network or config error');
+      console.error('[contact form] Make webhook failed:', err);
+      setErrorDetail(err && err.message ? String(err.message) : 'network error');
       setStatus('error');
     }
   }
