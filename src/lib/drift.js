@@ -3,7 +3,9 @@
    across the hero, layered above the botanical flower, below the text.
    They scatter from the pointer and settle back into their wander. */
 export function initDrift() {
-  var MAX_DPR = 1.5;
+  // phones get a lighter swarm: fewer bugs, no retina buffer
+  var SMALL_SCREEN = window.innerWidth < 640;
+  var MAX_DPR = SMALL_SCREEN ? 1 : 1.5;
   var MAX_COUNT = 140;
   var VERTS_PER_BUG = 6;
   var FLOATS_PER_VERT = 12;
@@ -22,7 +24,7 @@ export function initDrift() {
   var V = {
     baseColor: "#b8a6ff",
     accentColor: "#74e9c9",
-    count: 70,
+    count: SMALL_SCREEN ? 16 : 32,
     span: 0.025,
     speed: 1.4,
     flap: 0.6,
@@ -470,6 +472,15 @@ export function initDrift() {
         }
       }, { threshold: 0 }).observe(hero);
     }
+    var rzT = 0;
+    window.addEventListener('resize', function(){
+      clearTimeout(rzT);
+      rzT = setTimeout(function(){
+        SMALL_SCREEN = window.innerWidth < 640;
+        MAX_DPR = SMALL_SCREEN ? 1 : 1.5;
+        V.count = SMALL_SCREEN ? 16 : 32;
+      }, 200);
+    });
     last = performance.now();
     raf = requestAnimationFrame(render);
   }

@@ -14,6 +14,7 @@ export default function ContactForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [errorDetail, setErrorDetail] = useState('');
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -34,7 +35,9 @@ export default function ContactForm() {
       setName('');
       setEmail('');
       setMessage('');
-    } catch {
+    } catch (err) {
+      console.error('[contact form] EmailJS failed:', err);
+      setErrorDetail(err && err.text ? String(err.text) : 'network or config error');
       setStatus('error');
     }
   }
@@ -84,7 +87,7 @@ export default function ContactForm() {
         </button>
         <p className="contact-status" aria-live="polite" data-state={status}>
           {status === 'sent' && 'Received! I read everything, I promise.'}
-          {status === 'error' && 'Hmm, that failed to send — fill every field, or ping me on GitHub instead.'}
+          {status === 'error' && ('Hmm, that failed to send (' + errorDetail + ') — or ping me on GitHub instead.')}
         </p>
       </div>
     </form>
