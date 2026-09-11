@@ -8,9 +8,11 @@ import { initCinema } from './lib/cinema.js';
 import { initTilt } from './lib/tilt.js';
 import { initAnimeFx } from './lib/animeFx.js';
 import { initDrift } from './lib/drift.js';
+import { initSmoothScroll } from './lib/smoothScroll.js';
 
 export default function App() {
   useEffect(() => {
+    initSmoothScroll();
     initBackgrounds();
     initLiquidCarveButtons();
     initScrollHighlight();

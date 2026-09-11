@@ -52,4 +52,5 @@ src/
     tilt.js          # iPad hover tilt
     animeFx.js       # anime.js v4 micro-interactions
     drift.js         # butterfly drift hero layer (from drift.md)
+    smoothScroll.js  # Lenis buttery scrolling, synced with ScrollTrigger
 ```
