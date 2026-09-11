@@ -4,7 +4,7 @@ import * as THREE from 'three';
    Motes — ambient floating pollen particles (Three.js)
    ========================================================================= */
 export function initMotes(canvas){
-  var MAX_DPR = 1.5;
+  var MAX_DPR = 1.25;
   var dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
   var cw = canvas.clientWidth || window.innerWidth;
   var ch = canvas.clientHeight || window.innerHeight;
@@ -91,12 +91,19 @@ export function initMotes(canvas){
   renderer.setPixelRatio(dpr);
   renderer.setSize(cw, ch, false);
 
-  var raf = 0;
+  var raf = 0, visible = true;
   function render(now){
     var t = now * 0.001;
     mat.uniforms.uTime.value = t;
     renderer.render(scene, camera);
-    raf = requestAnimationFrame(render);
+    if (visible) raf = requestAnimationFrame(render);
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      var v = entries[0].isIntersecting;
+      if (v && !visible) { visible = true; raf = requestAnimationFrame(render); }
+      else if (!v && visible) { visible = false; cancelAnimationFrame(raf); }
+    }, { threshold: 0 }).observe(canvas);
   }
   raf = requestAnimationFrame(render);
 

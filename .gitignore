@@ -3,6 +3,7 @@ node_modules/
 
 # build output
 dist/
+dist-dev/
 
 # logs + OS cruft
 npm-debug.log*

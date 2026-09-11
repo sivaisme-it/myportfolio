@@ -5,7 +5,7 @@ export function initBackgrounds() {
    CloudSky — vanilla WebGL port, fixed full-page background (z:-3)
    ========================================================================= */
 (function(){
-  var MAX_DPR = 2;
+  var MAX_DPR = 1.5;
   var PUFF_UP = 0.34, PUFF_DOWN = 0.19, ERODE = 0.7, SHADOW_STEP = 0.085;
   var NEAR_CELL = 1.05, FAR_CELL = 2.15, FAR_MIX = 0.55;
   var NEAR_DRIFT = 0.055, FAR_DRIFT = 0.026, CIRRUS_DRIFT = 0.014;
@@ -285,7 +285,7 @@ export function initBackgrounds() {
    crossfades in after the CloudSky + About zone.
    ========================================================================= */
 (function(){
-  var MAX_DPR = 1.5, MAX_DT = 0.05, PULSE_DECAY = 0.9;
+  var MAX_DPR = 1.25, MAX_DT = 0.05, PULSE_DECAY = 0.9;
   var SPIN_RATE = 0.1, DRIFT_RATE = 0.06, RADIAL_LOOP = 8;
   var CELLS_PER_TURN = 26, CELLS_PER_EFOLD = 4;
   var GRAIN = "0.0550";
@@ -605,8 +605,9 @@ export function initBackgrounds() {
   window.addEventListener('resize', onScroll);
   updateFade();
 
-  // proximity grow + shine border
+  // proximity grow + shine border (capped to one layout pass per frame)
   var NEAR = 260;
+  var navPending = false, navEvt = null;
   function updateNavProximity(e){
     if (!navbar) return;
     var rect = navbar.getBoundingClientRect();
@@ -616,15 +617,29 @@ export function initBackgrounds() {
     var dy = e.clientY - cy;
     var dist = Math.sqrt(dx * dx + dy * dy);
 
+    if (dist > NEAR + 160) {
+      // pointer far away: clear highlights without measuring every link
+      navLinks.forEach(function(link){
+        if (link._near) {
+          link._near = false;
+          link.classList.remove('is-near');
+          link.style.transform = '';
+        }
+      });
+      navbar.style.setProperty('--nav-shine', '0');
+      return;
+    }
+
     navLinks.forEach(function(link){
       var r = link.getBoundingClientRect();
       var lx = r.left + r.width / 2;
       var ly = r.top + r.height / 2;
-      var d = Math.hypot(e.clientX - lx, e.clientY - ly);
+      var d = Math.sqrt((e.clientX - lx) * (e.clientX - lx) + (e.clientY - ly) * (e.clientY - ly));
       if (d < NEAR) {
-        link.classList.add('is-near');
+        if (!link._near) { link._near = true; link.classList.add('is-near'); }
         link.style.transform = 'scale(' + (1 + (1 - d / NEAR) * 0.28).toFixed(3) + ')';
-      } else {
+      } else if (link._near) {
+        link._near = false;
         link.classList.remove('is-near');
         link.style.transform = '';
       }
@@ -637,12 +652,21 @@ export function initBackgrounds() {
   document.addEventListener('pointermove', function(e){
     pointerX = e.clientX;
     pointerY = e.clientY;
-    updateNavProximity(e);
+    navEvt = e;
+    if (!navPending) {
+      navPending = true;
+      requestAnimationFrame(function(){
+        navPending = false;
+        if (navEvt) updateNavProximity(navEvt);
+      });
+    }
     updateParallax();
   });
 
   document.addEventListener('pointerleave', function(){
+    navEvt = null;
     navLinks.forEach(function(link){
+      link._near = false;
       link.classList.remove('is-near');
       link.style.transform = '';
     });

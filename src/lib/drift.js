@@ -3,7 +3,7 @@
    across the hero, layered above the botanical flower, below the text.
    They scatter from the pointer and settle back into their wander. */
 export function initDrift() {
-  var MAX_DPR = 2;
+  var MAX_DPR = 1.5;
   var MAX_COUNT = 140;
   var VERTS_PER_BUG = 6;
   var FLOATS_PER_VERT = 12;

@@ -186,7 +186,7 @@ class FlowerTypeScene {
     this.prev = JSON.parse(JSON.stringify(cfg));
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setClearColor(0x000000, 0);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     var canvas = this.renderer.domElement;
     canvas.style.position = "absolute";
@@ -503,6 +503,7 @@ class FlowerTypeScene {
     var now = performance.now();
     var dt = (now - this.lastT) / 1000;
     this.lastT = now;
+    if (this.visible === false) return;
     if (!isFinite(dt) || dt < 0) dt = 0;
     if (dt > 0.05) dt = 0.05;
     this.updateMatrices(dt);
@@ -604,8 +605,17 @@ function FlowerType(props) {
       scene.setSize(container.clientWidth, container.clientHeight);
     });
     ro.observe(container);
+    scene.visible = true;
+    var vio = null;
+    if ('IntersectionObserver' in window) {
+      vio = new IntersectionObserver(function(entries){
+        scene.visible = entries[0].isIntersecting;
+      }, { threshold: 0 });
+      vio.observe(container);
+    }
     return function() {
       ro.disconnect();
+      if (vio) vio.disconnect();
       scene.dispose();
       sceneRef.current = null;
     };

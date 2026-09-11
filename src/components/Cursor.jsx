@@ -1,7 +1,7 @@
 
 import React, { useEffect, useId, useRef } from 'react';
 
-const GOO_BLUR = 15;
+const GOO_BLUR = 12;
 const SHADOW_OFFSET = 0;
 const EXIT_OVERSHOOT = 400;
 const EXIT_MARGIN = 8;
@@ -244,6 +244,13 @@ function CircleCursor(props) {
 }
 
 export default function Cursor() {
+  if (
+    typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(pointer: coarse)').matches
+  ) {
+    return null;
+  }
   return React.createElement(CircleCursor, {
     blobType: "circle",
     fillColor: "linear-gradient(135deg, #00FFFF, #FFFFFF)",

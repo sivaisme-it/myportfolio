@@ -409,6 +409,11 @@
 
   /* ---------------- section shell ---------------- */
   section{ position:relative; }
+  /* skip offscreen rendering work until a section nears the viewport */
+  section, footer{
+    content-visibility:auto;
+    contain-intrinsic-size:auto 900px;
+  }
   .section-pad{ padding:64px 0; }
   @media (max-width:640px){ .section-pad{ padding:48px 0; } }
 
