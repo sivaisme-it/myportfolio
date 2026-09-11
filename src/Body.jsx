@@ -1,5 +1,6 @@
 import BotanicalText from './components/BotanicalText.jsx';
 import LetterDrop from './components/LetterDrop.jsx';
+import ContactForm from './components/ContactForm.jsx';
 
 export default function Body() {
   return (
@@ -266,6 +267,7 @@ export default function Body() {
                 <a className="glow-btn" href="https://readersuii.netlify.app/" target="_blank" rel="noopener">See what I'm building</a>
               </div>
             </div>
+            <ContactForm />
             <p className="contact-note">No public email listed yet — GitHub's the fastest way to reach me for now. My inbox there is always open.</p>
           </div>
         </div>
